@@ -36,19 +36,24 @@ func main() {
 	// bot action
 	bot.Command("my year of birth is <year>", &slacker.CommandDefinition{
 		Description: "Age Calculator",
-		Examples: []string{"my year of birth is 2001"},
+		Examples:    []string{"my year of birth is 2001"},
 		Handler: func(botCtx slacker.BotContext, request slacker.Request, response slacker.ResponseWriter) {
+			// taking string 'year' from the command argument
 			year := request.Param("year")
+			// converting the string year into INT for calculation
 			yob, err := strconv.Atoi(year)
 			if err != nil {
 				println("error")
 			}
+			// calculating the age
 			age := 2023 - yob
+
+			// printing the age
 			r := fmt.Sprintf("age is %d", age)
-			response.Reply(r) 
+			// writing the response for the slack reply
+			response.Reply(r)
 		},
 	})
-
 
 	// using Background context as the base context to listen to requests
 	ctx, cancel := context.WithCancel(context.Background())
